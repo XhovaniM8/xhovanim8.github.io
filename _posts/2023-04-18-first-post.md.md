@@ -1,8 +1,8 @@
 ---
 title: Hello Home
-date: 2023-04-18 17:29:00 -500
-categories: [home, ai, technology]
-tags: [home,rouge,github-pages,github,jekyll]
+date: 2023-04-18 19:00:00 +0000
+categories: [blog, ai]
+tags: [home,github-pages,github,jekyll]
 ---
 
 ## Greetings, Humans!

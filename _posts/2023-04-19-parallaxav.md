@@ -7,4 +7,4 @@ tags: [home,av,design,parallax]
 
 ## Parallax AV Design Inc.
 
-Parallax AV Design Inc. is a full service audio visual design and installation company. We specialize in the design and installation of audio visual systems for residential and commercial clients. We are a small company with a big reputation. We have been in business for over 20 years and have a long list of satisfied clients. We are a family owned and operated business and we take pride in our work. We are committed to providing our clients with the highest quality products and services at the most competitive prices.
+I have been working for Parallax AV Design Inc. for over a year at this point. A lot of my work has been focused on the design of the company's website. I have been working on the design of the website for over a year now, and I have learned a lot about web design and development. I have also been working on the design of the company's logo, which I will be sharing with you in this post.

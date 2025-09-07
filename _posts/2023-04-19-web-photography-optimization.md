@@ -1,8 +1,9 @@
 ---
-title: Optimizing Photography for your Website
+title: "Optimizing Photography for Your Website"
 date: 2023-06-28 13:00:00 +0000
-categories: [notes, web development]
-tags: [notes, web development, photography, optimization, guides, python]
+categories: [guide, web]
+tags: [photography, optimization, seo, python, web-development]
+excerpt: "Best practices for compressing, resizing, and automating image optimization to speed up websites."
 ---
 
 # Optimizing Photography for Your Website

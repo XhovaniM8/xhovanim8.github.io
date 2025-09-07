@@ -1,9 +1,11 @@
 ---
-title: Sending Strings From a Macbook to an FPGA
-date: 2023-06-28 13:00:00 +0000
-categories: [notes, FPGA]
-tags: [notes, project, fpga, verilog, c++, udp, networking]
+title: "Sending Strings with FPGA"
+date: 2024-01-29 13:00:00 +0000
+categories: [project, fpga]
+tags: [verilog, fpga, uart, communication, hardware]
+excerpt: "Experimenting with sending text strings over serial/UART using an FPGA."
 ---
+
 
 
 # Project: Building a UDP Communication System with FPGA and Macbook

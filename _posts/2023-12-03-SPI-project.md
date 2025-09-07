@@ -1,9 +1,11 @@
 ---
-title: My First SPI Slave
+title: "My First SPI Slave"
 date: 2023-06-28 13:00:00 +0000
-categories: [notes, FPGA]
-tags: [notes, verilog, fpga, spi, project]
+categories: [project, fpga]
+tags: [verilog, fpga, spi, hardware]
+excerpt: "Walkthrough of building a custom SPI slave in Verilog on the Arty S7-25 FPGA with debug features."
 ---
+
 
 # Building a Custom SPI Slave Module in Verilog
 

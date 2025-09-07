@@ -1,8 +1,9 @@
 ---
 title: "Review of GetCracked.io"
 date: 2025-09-07 13:00:00 +0000
-categories: [review]
-tags: [notes, quant, interview-prep]
+categories: [review, career]
+tags: [quant, interview-prep, review, coding-platform]
+excerpt: "An honest review of GetCracked.io, a technical interview prep platform with 600+ coding questions and performance analytics."
 ---
 
 ## Overview

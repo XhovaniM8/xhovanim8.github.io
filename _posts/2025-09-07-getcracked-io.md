@@ -206,7 +206,9 @@ function copyCoupon(el) {
   if (typeof gtag === 'function') {
     gtag('event', 'coupon_copy', {
       event_category: 'engagement',
-      event_label: code
+      event_label: code,
+      value: 5.00,
+      currency: 'USD'
     });
   }
   var original = el.textContent;

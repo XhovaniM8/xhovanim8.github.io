@@ -8,7 +8,7 @@ excerpt: "A blunt, experience-driven review of GetCracked.io for quant and syste
 
 ## 10% Off Discount Code
 
-**Use code `MF8UJU6X` at checkout.**
+**Use code <code class="coupon-code" style="cursor:pointer;" onclick="copyCoupon(this)" title="Click to copy">`MF8UJU6X`</code> at checkout.**
 
 Yes, I get a kickback.  
 No, that does not change what follows.
@@ -193,8 +193,24 @@ That’s the most honest endorsement I can give.
 
 ## Discount Code (One Last Time)
 
-**`MF8UJU6X`** — 10% off any plan.
+**<code class="coupon-code" style="cursor:pointer;" onclick="copyCoupon(this)" title="Click to copy">MF8UJU6X</code>** — 10% off any plan.
 
-You save money.  
-I get a kickback.  
+You save money.
+I get a kickback.
 The honesty stays intact.
+
+<script>
+function copyCoupon(el) {
+  var code = el.textContent.replace(/`/g, '').trim();
+  navigator.clipboard.writeText(code);
+  if (typeof gtag === 'function') {
+    gtag('event', 'coupon_copy', {
+      event_category: 'engagement',
+      event_label: code
+    });
+  }
+  var original = el.textContent;
+  el.textContent = 'Copied!';
+  setTimeout(function() { el.textContent = original; }, 1500);
+}
+</script>

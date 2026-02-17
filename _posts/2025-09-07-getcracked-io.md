@@ -215,4 +215,18 @@ function copyCoupon(el) {
   el.textContent = 'Copied!';
   setTimeout(function() { el.textContent = original; }, 1500);
 }
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a[href*="getcracked.io"]').forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'affiliate_click', {
+          event_category: 'engagement',
+          event_label: 'getcracked',
+          value: 5.00,
+          currency: 'USD'
+        });
+      }
+    });
+  });
+});
 </script>

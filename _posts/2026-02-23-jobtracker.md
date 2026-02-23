@@ -2,7 +2,17 @@
 title: "I Built a Job Tracker Because Spreadsheets Were Killing Me"
 date: 2026-02-23 13:00:00 +0000
 categories: [projects, career]
-tags: [job-tracker, still-not-hired, electron, vue3, sqlite, desktop-app, job-search, open-source]
+tags:
+  [
+    job-tracker,
+    still-not-hired,
+    electron,
+    vue3,
+    sqlite,
+    desktop-app,
+    job-search,
+    open-source,
+  ]
 description: "still-not-hired is a free, open-source desktop app for tracking job applications with analytics, resume management, and keyword matching. All data stays local."
 ---
 
@@ -19,7 +29,7 @@ Maybe a notes column if you're feeling optimistic.
 
 It works for two weeks. Then it becomes twenty tabs, conflicting color codes, and a column named "Status2" because you forgot what "Status" was tracking.
 
-I got tired of it. So I built something better.
+There are many options of course, but with the current advent of "vibe coding", I'd prefer to use my tokens to build myself local-only apps where my data isn't stolen and where I have utter and absolute control over my app.
 
 ---
 
@@ -76,11 +86,11 @@ SQLite. On your machine. No accounts, no sync, no cloud.
 
 Releases are available for all three platforms:
 
-| Platform | Download |
-|----------|----------|
-| macOS | `.dmg` installer or `.zip` |
-| Windows | `.exe` installer or portable `.exe` |
-| Linux | `.AppImage` or `.deb` |
+| Platform | Download                            |
+| -------- | ----------------------------------- |
+| macOS    | `.dmg` installer or `.zip`          |
+| Windows  | `.exe` installer or portable `.exe` |
+| Linux    | `.AppImage` or `.deb`               |
 
 Get the latest release from the [Releases page](https://github.com/XhovaniM8/still-not-hired/releases).
 
@@ -130,6 +140,7 @@ I built this during a job search. It's now v1.0.0 and public. The job search is 
 The repo is open source under MIT. If you want to contribute, read [CONTRIBUTING.md](https://github.com/XhovaniM8/still-not-hired/blob/main/CONTRIBUTING.md) before opening a PR.
 
 Useful issues include:
+
 - PDF import
 - Automatic keyword extraction
 - Better dictionary coverage for niche domains
@@ -138,13 +149,13 @@ Useful issues include:
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
+| Layer    | Technology                             |
+| -------- | -------------------------------------- |
 | Frontend | Vue 3, Pinia, Vue Router, Tailwind CSS |
-| Desktop | Electron |
-| Database | better-sqlite3 (SQLite) |
-| Charts | Chart.js, D3.js, D3-Sankey |
-| Build | Vite, electron-builder |
+| Desktop  | Electron                               |
+| Database | better-sqlite3 (SQLite)                |
+| Charts   | Chart.js, D3.js, D3-Sankey             |
+| Build    | Vite, electron-builder                 |
 
 ---
 

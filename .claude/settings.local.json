@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find /Users/rougeboy/dev/xhovanim8.github.io -type f \\\\\\( -name \"*.html\" -o -name \"*.liquid\" \\\\\\) 2>/dev/null | head -20)",
-      "Bash(grep -r \"img \" /Users/rougeboy/dev/xhovanim8.github.io --include=\"*.html\" --include=\"*.md\" --include=\"*.liquid\" 2>/dev/null | head -30)",
-      "Bash(find /Users/rougeboy/dev/xhovanim8.github.io -type f -print0 | xargs -0 grep -l \"path.*=\" 2>/dev/null | head -20)"
-    ]
-  }
-}

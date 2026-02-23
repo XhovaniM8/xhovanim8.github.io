@@ -4,9 +4,6 @@ date: 2026-02-23 13:00:00 +0000
 categories: [projects, career]
 tags: [job-tracker, still-not-hired, electron, vue3, sqlite, desktop-app, job-search, open-source]
 description: "still-not-hired is a free, open-source desktop app for tracking job applications with analytics, resume management, and keyword matching. All data stays local."
-image:
-  path: # optional og:image
-  alt: "still-not-hired job tracker desktop app"
 ---
 
 ## The Problem With Spreadsheets

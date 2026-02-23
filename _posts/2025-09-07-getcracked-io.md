@@ -4,9 +4,6 @@ date: 2025-09-07 13:00:00 +0000
 categories: [review, career]
 tags: [getcracked, getcracked-coupon-code, getcracked-discount, getcracked-review, getcracked-io, quant-interview-prep, quant, interview-prep, systems-programming, computer-architecture, os, concurrency, quant-trading]
 description: "GetCracked.io coupon code MF8UJU6X for 10% off. Honest review of GetCracked.io for quant trading and systems programming interview prep. Discount code works on all plans."
-image:
-  path: # optional og:image if you have one
-  alt: "GetCracked.io coupon code and review"
 ---
 
 ## 10% Off Discount Code

@@ -24,7 +24,23 @@ The question bank leans into:
 
 The coding problems are a different beast. These aren't generic LeetCode-style puzzles. You're implementing things like `std::optional`, lock-free SPSC queues, order books, mutex primitives, reader-writer locks, and shared pointers — the kind of problems where you either understand memory layout and ownership semantics or you don't. Success rates on many of these are in the single digits.
 
-It was built by "Coding Jesus," a quant-focused creator. The short-form content is loud by design — it has to be — but the platform itself is surprisingly serious. I've spoken to him directly. The persona is marketing. The product is not a joke.
+It was built by "Coding Jesus." More on him in a second.
+
+---
+
+## About the Creator (The Honest Part)
+
+Before going further, it's worth being direct about something.
+
+"Coding Jesus" has a reputation that precedes him. His interview content on TikTok and YouTube is the controversial part: bring on a junior dev, ask hyper-specific C++ or quant questions, react with visible contempt when they struggle, post the clip with a dunking title. The chat mocks the person being interviewed. He doesn't moderate it.
+
+The more legitimate criticism: he does these interviews across all of CS, but his actual expertise is narrow — C++ and quant. When he ventures outside that zone, he's been called out for marking correct answers as wrong because he doesn't understand the technology himself. And he usually won't give the right answer in the short anyway, so even if he were correct, there's nothing to learn from it. It's content, not education.
+
+That's a real problem with his public persona.
+
+The platform is a separate thing. The question bank, the coding problems, the quizzes — those were built for the domain he actually knows. That part is solid. When someone stays in their lane and builds around genuine depth, the output is usually good, and that holds here.
+
+I'm not vouching for how he treats people on camera. I'm saying the tool he built for the narrow slice of prep he actually understands is worth using for that purpose.
 
 ---
 

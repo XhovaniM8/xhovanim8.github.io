@@ -13,114 +13,144 @@ tags:
     nyu,
     python,
     cpp,
+    tail-latency,
+    rdma,
   ]
-description: "My NYU ECE-GY 6383 term project: using control theory to systematically tune HPCC++ congestion control parameters for AI datacenter links at 100G, 400G, and 800G. Includes code, stability proofs, and tuned vs untuned results."
+description: "My NYU ECE-GY 6383 term project: using control theory and packet-level simulation to systematically tune HPCC++ congestion control for AI datacenter networks. Tail latency, parameter sweeps, and mechanism ablation."
 ---
 
-## The Problem
+## What This Is
 
-AI training clusters are some of the most demanding networking environments that exist. A large distributed training job—say, a 10,000-GPU run—generates massive synchronized traffic bursts called **incast**: every GPU finishes a gradient computation at roughly the same time and floods the network simultaneously.
+For my ECE-GY 6383 (High-Speed Networks) term project at NYU, I treated HPCC++ congestion control as a feedback controller and asked: can you tune it systematically, and does it actually matter?
 
-Standard TCP doesn't handle this well. ECMP load balancing helps, but what actually prevents queue buildup and tail latency blowup is the congestion control algorithm running on each sender.
+The short answer: yes, and specifically for **tail latency**—which is the metric that actually determines how fast a distributed AI training job runs.
 
-HPCC (High Precision Congestion Control) was introduced to fix this. It uses in-band network telemetry (INT)—per-packet metadata stamped by switches—to give senders precise, real-time visibility into link utilization and queue depth. No more guessing from packet drops or ECN marks; the sender knows exactly what's happening at every hop.
-
-HPCC++ is an enhanced version that adds a damping term to prevent oscillation. The control law is:
-
-```
-W(t+1) = W(t) × [1 - α(U_j - η) - β·dU_j/dt] + W_AI
-```
-
-Where:
-- `W` is the congestion window
-- `U_j` is the normalized link utilization (queue + rate, relative to capacity)
-- `η` is the target utilization (typically 0.95)
-- `α` controls how aggressively the sender reacts to errors
-- `β` damps oscillation via the derivative term
-- `W_AI` is a small additive increase to prevent starvation
-
-The parameters `α` and `β` are not set scientifically in most deployments. The original paper provides heuristics. My project asked: can we do better with actual control theory?
+Full paper and code: [github.com/XhovaniM8/hpcc-tuning](https://github.com/XhovaniM8/hpcc-tuning)
 
 ---
 
-## The Control Theory Angle
+## Why Tail Latency Is the Real Problem
 
-An HPCC++ flow can be modeled as a discrete-time PD controller acting on utilization error. That framing gives you two stability constraints that must hold for the system to converge without oscillating:
+In distributed AI training, all-reduce and all-gather collectives are synchronized operations. Every GPU in a training job finishes a gradient computation at roughly the same time, then they all communicate before the next forward pass can start.
 
-**Constraint 1 — Loop gain:** The multiplicative correction each feedback interval must be less than the bandwidth-delay product:
+The step is only as fast as the **slowest flow**. If 999 flows finish in 1ms and one flow takes 10ms, the whole step takes 10ms.
 
-```
-α × C × T_s < BDP
-```
+This means optimizing mean flow completion time (FCT) is the wrong objective. What matters is p99 and max FCT—the tail. A congestion control algorithm that looks stable on average can still be a disaster for synchronized AI workloads if it occasionally creates stragglers.
 
-At 100 Gbps with a 10µs RTT and T_s = 10µs (original paper default), this becomes:
-```
-0.1 × 100e9 × 10e-6 = 100,000 bytes
-```
-
-That's only about 100KB. Fine at 100G. But at 800G with the same T_s:
-```
-0.1 × 800e9 × 10e-6 = 800,000 bytes
-```
-
-The BDP is also 800G × 10µs = 1,000KB. You're burning 80% of the stability margin with just the loop gain. Any transient pushes you to the edge.
-
-**Constraint 2 — Damping:** To prevent oscillation, the damping coefficient must satisfy:
-
-```
-β ≥ α / 2
-```
-
-This is the critical damping condition. Below this, the controller undershoots, overshoots, undershoots again. In a network context, that's queue oscillation—which is exactly what you're trying to eliminate.
-
-The `checkStability` method in the C++ implementation encodes both:
-
-```cpp
-bool checkStability(double capacity, std::string& msg) const {
-    double constraint1 = alpha * capacity * T_s;
-    if (constraint1 >= 1.0) {
-        msg = "Stability violated: alpha*C*T_s = " +
-              std::to_string(constraint1) + " >= 1";
-        return false;
-    }
-    if (beta < alpha / 2.0) {
-        msg = "Insufficient damping: beta = " + std::to_string(beta) +
-              " < alpha/2 = " + std::to_string(alpha/2.0);
-        return false;
-    }
-    return true;
-}
-```
+At 100 Gbps with a 10µs RTT, the bandwidth-delay product is just 125KB. Even a few microseconds of unnecessary queue buildup from a misbehaving controller shows up in tail latency.
 
 ---
 
-## What the Simulator Does
+## HPCC++ in One Paragraph
 
-The simulation models a single HPCC++ flow competing with 50% background traffic on a link. Each step:
+HPCC++ uses In-band Network Telemetry (INT)—metadata stamped directly onto packets by switches—to give senders real-time visibility into queue length and transmission rate at every hop. No guessing from drops or ECN; the sender knows exactly what's happening.
 
-1. Compute incoming bytes (our flow + background)
-2. Drain bytes at link capacity
-3. Compute normalized utilization `U_j = queue/BDP + rate/capacity`
-4. Apply the HPCC++ control law to update the window
-5. Clamp the window to `[0.1×BDP, 2.0×BDP]`
+The control law updates the congestion window with a PD-like rule:
 
-The core update:
+```
+W(t+1) = W(t) × [1 - α(U(t) - η) - β·ΔU(t)] + W_AI
+```
+
+Where `U(t)` is normalized utilization (queue + rate, both relative to capacity), `η` is the target utilization (0.95), `α` controls proportional responsiveness, and `β` damps rapid changes. `W_AI` is a small additive increment to prevent starvation.
+
+Two implementation safeguards bound the update in practice:
+- **Multiplicative clamping:** limits how large a single-step window change can be
+- **Absolute cwnd bounding:** keeps the window within BDP-scaled limits
+
+These safeguards are not incidental. They're central to how HPCC++ stays well-behaved in practice—and one of the main things the paper investigates.
+
+---
+
+## The Control Theory Framework
+
+To organize the parameter space, I borrowed two concepts from control theory—but applied them carefully, because HPCC++ is not a clean linear system.
+
+**Conservative stability heuristic:** Avoid changing in-flight data by more than O(BDP) per feedback interval. This gives:
+
+```
+α × C × T_s ≲ BDP = C × T
+→ αmax ≈ T / T_s
+```
+
+This is intentionally conservative. It ignores the max-over-hops switching behavior (where the bottleneck link changes and causes nonlinearities), queue dynamics, and the effect of the safeguard clamps. But it's a useful organizing intuition: larger `T_s` → fewer control updates per RTT → smaller safe α.
+
+**Damping proxy grouping:** To compare parameter configurations, I grouped `(α, β)` pairs by:
+
+```
+ζ = 2β / α
+```
+
+This is a proxy inspired by second-order damping intuition—not a true physical damping ratio. It's just a convenient way to normalize sweeps: for a fixed ζ, increasing α means proportionally increasing β to maintain similar "effective damping character." This made the sweep results interpretable without claiming more mathematical rigor than the model supports.
+
+---
+
+## Experiments: What Actually Ran
+
+The main experiments used **csg-htsim**, a packet-level datacenter network simulator. The setup:
+
+- Fat-tree topology, 432 nodes, 100 Gbps links
+- ECMP routing (`-strat ecmp_host`)
+- Sustained heavy workload (`heavy_384.txt`) — designed to stress the controller under persistent congestion
+- Metrics: mean FCT, p99 FCT, max FCT, completion ratio, retransmissions
+- Sweeps over `(α, β)` grouped by ζ, with all other parameters fixed
+
+The Python implementation in the repo (shown below) is supplementary analysis for building intuition about the control law. The packet-level htsim experiments are the source of the paper's results.
+
+The simulator was extended to expose HPCC++ parameters as command-line flags, enabling repeatable sweeps without code changes per run.
+
+---
+
+## What the Sweep Found
+
+The tail behavior versus α is **non-monotonic**.
+
+Too small: the controller converges slowly. Flows that start late or encounter persistent competition spend too long below target utilization. Tail latency suffers.
+
+Too large: proportional control becomes aggressive enough to amplify feedback noise, max-over-hops switching, and transient queue spikes. Window oscillation increases. Occasional large swings in cwnd create bursts that disproportionately impact stragglers. Max FCT rises.
+
+The sweet spot in our sweep: **moderate α with lower ζ groupings**. This region improves p99 and max FCT relative to default-like settings, primarily by reducing straggler completion time rather than improving the mean (which barely moves).
+
+This is exactly the AI-training-relevant result. If you're optimizing a distributed training job, what you care about is the worst-case flow in each communication round, not the average.
+
+---
+
+## The Ablation Study
+
+The more interesting finding came from the ablation. I tested four variants:
+
+| Variant              | Description                              |
+| -------------------- | ---------------------------------------- |
+| `p_only`             | Proportional term only, no derivative    |
+| `pd`                 | Full HPCC++ baseline                     |
+| `pd_no_cwnd_clamp`   | PD control, absolute cwnd bound disabled |
+| `pd_no_mult_clamp`   | PD control, multiplicative clamp disabled |
+
+Disabling either safeguard degrades tail metrics. Disabling both makes things significantly worse.
+
+This resolves an apparent paradox: HPCC++ appears tolerant to wide gain ranges in practice, yet the underlying control update is sensitive. The tolerance isn't a property of the PD law—it's a property of the bounded implementation. The clamps expand the operationally safe region by limiting how far any single bad update can move the window.
+
+Practical implication: if you're deploying HPCC++ and thinking about stripping out the safeguards to simplify the implementation, don't. They're part of the control design, not dead code.
+
+---
+
+## The Python Simulation
+
+Alongside the htsim experiments, the repo includes a Python simulator for building intuition about the control law under parameter variations. The core update matches the HPCC++ spec:
 
 ```python
 def step(self, dt: float):
-    # Queue dynamics
+    # Queue dynamics with background traffic
     total_incoming = (self.rate + self.background_rate) * dt / 8
-    service = self.capacity * dt / 8
-    self.queue = max(0, self.queue + total_incoming - service)
+    self.queue = max(0, self.queue + total_incoming - self.capacity * dt / 8)
 
     # Normalized utilization
     U_j = min(self.queue / self.bdp +
               (self.rate + self.background_rate) / self.capacity, 2.0)
 
-    # Derivative term
+    # Derivative term for damping
     dU_dt = (U_j - self.prev_util) / dt if dt > 0 else 0
 
-    # HPCC++ control law
+    # HPCC++ multiplicative update
     error = U_j - self.config.eta
     mult = np.clip(1 - self.config.alpha * error
                    - self.config.beta * dU_dt, 0.5, 1.5)
@@ -130,93 +160,41 @@ def step(self, dt: float):
     self.rate = self.window / self.rtt
 ```
 
-The grid search sweeps α from 0.01 to 0.5 and β from 0.005 to 0.25, filters out unstable combinations, simulates each, and scores them on a cost function:
+And the C++ header (`hpcc_plus_plus.h`) implements the same controller in a form designed to integrate with htsim or ns-3:
 
-```python
-def objective(metrics, w_queue=1.0, w_util=2.0, w_stability=0.5):
-    queue_cost     = w_queue     * metrics['avg_queue_kb'] / 100
-    util_cost      = w_util      * metrics['util_error']
-    stability_cost = w_stability * metrics['rate_std_gbps']
-    return queue_cost + util_cost + stability_cost
-```
+```cpp
+// HPCC++ control law
+double utilizationError = U_j - params_.eta;
+double dampingTerm = params_.beta * dU_dt;
+double multFactor = std::max(0.5, std::min(1.5,
+    1.0 - params_.alpha * utilizationError - dampingTerm));
 
-Utilization error gets double weight—missing the target utilization is more costly than moderate queue depth.
-
----
-
-## Scaling to Higher Link Speeds
-
-The original HPCC paper was designed for 100G links. AI datacenter fabrics are moving to 400G and 800G. Plugging old parameters into a faster link breaks things for a simple reason: the feedback interval `T_s` stays the same while the link drains queues much faster.
-
-The fix is to scale `T_s` inversely with link speed:
-
-| Speed | α    | β    | T_s      | Damping ratio ζ |
-| ----- | ---- | ---- | -------- | --------------- |
-| 100G  | 0.85 | 0.50 | 1.0 µs   | 1.18            |
-| 400G  | 0.70 | 0.42 | 0.25 µs  | 1.20            |
-| 800G  | 0.60 | 0.36 | 0.125 µs | 1.20            |
-
-Three things are happening as speed increases:
-
-1. **`T_s` shrinks** — feedback interval scales inversely with link capacity so the loop gain stays bounded
-2. **`α` decreases slightly** — higher link speed means each feedback interval covers more bytes; a smaller correction coefficient maintains the same effective responsiveness
-3. **`β` maintains the ratio `β ≈ 0.6α`** — keeps the damping ratio ζ ≈ 1.2 (slightly overdamped) across all speeds
-
-The scaling validation confirms all three link speeds achieve >94% utilization with normalized jitter under 3%:
-
-```
-┌─────────┬───────┬───────┬──────────┬─────────┬────────────┬───────────┐
-│  Speed  │   α   │   β   │ T_s (µs) │   ζ     │ Util (%)   │ Queue(KB) │
-├─────────┼───────┼───────┼──────────┼─────────┼────────────┼───────────┤
-│   100G  │ 0.85  │ 0.50  │  1.000   │  1.18   │   94.x     │   x.x    │
-│   400G  │ 0.70  │ 0.42  │  0.250   │  1.20   │   94.x     │   x.x    │
-│   800G  │ 0.60  │ 0.36  │  0.125   │  1.20   │   94.x     │   x.x    │
-└─────────┴───────┴───────┴──────────┴─────────┴────────────┴───────────┘
+double newWindow = window_ * multFactor + params_.W_AI;
+window_ = std::max(params_.minWindow, std::min(params_.maxWindow, newWindow));
+rate_ = window_ / baseRTT_;
 ```
 
 ---
 
-## Tuned vs Untuned
+## Practical Takeaway for Operators
 
-The clearest way to validate the tuning is a head-to-head comparison. Baseline (untuned) parameters use α=0.15, β=0.08, T_s=10µs—representative of what gets deployed without systematic analysis.
+The paper suggests a conservative tuning workflow:
 
-At 100G, the gap is noticeable. At 800G, it's severe—the untuned configuration at 800G uses a 10µs feedback interval on a link that can drain its entire BDP in about 1µs. The queue dynamics are completely mismatched to the control bandwidth.
+1. Start from a default-like baseline. Validate completion ratio and zero retransmissions under your target workload.
+2. Increase α gradually. Watch p99 and max FCT—not mean. Stop before max FCT begins rising.
+3. Adjust β proportionally via ζ groupings. Too little damping → overshoot. Too much → slow convergence.
+4. Keep the safeguards on. Ablation results are unambiguous: removing clamps degrades tail behavior and reduces safety margin.
 
-Key metrics from the comparison:
-
-- **Utilization:** Tuned configs sit at 94–95%. Untuned at 800G drifts further from the target.
-- **Queue depth:** Tuned shows lower average and P99 queue—directly relevant for tail latency in AI training jobs.
-- **Jitter:** Rate variance is lower with tuned parameters. In an incast scenario, this matters: synchronized bursts need synchronized, stable rate recovery.
-- **Convergence time:** How long it takes to stabilize after a traffic burst. Tuned configs converge faster because the PD controller is properly calibrated to the network's time constants.
+The deeper takeaway: HPCC++ is tunable, and tuning specifically for tail metrics under sustained load is achievable without algorithmic changes. The gap between a default configuration and a tuned one shows up in p99 and max FCT—exactly the numbers that determine AI training step time.
 
 ---
 
-## Repo
+## Limitations
 
-The full implementation is at [github.com/XhovaniM8/hpcc-tuning](https://github.com/XhovaniM8/hpcc-tuning). It includes:
+The experiments are specific to one topology, one buffer sizing, ECMP routing, and one traffic matrix. Other workload mixes—bursty incast, mixed RPC and collective traffic—may produce different sensitivity profiles. The simulation also depends on how accurately csg-htsim models INT feedback and queue dynamics under the actual line-rate behaviors of modern switches.
 
-- `src/` — HPCC++ control law in C++ (`hpcc_plus_plus.h`) and Python simulation
-- `analysis/` — Grid search, multi-speed scaling validation, tuned vs untuned comparison
-- `results/` — CSVs for 100G and 800G configurations
-- `figures/` — Parameter space heatmaps and comparison plots
-
-Running the analysis:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python analysis/test_tuned_vs_untuned.py
-```
+And zero retransmissions is a practical robustness indicator, not a formal stability proof.
 
 ---
 
-## What I'd Push Further
-
-**Real incast traffic patterns.** The simulation uses steady background traffic. Real AI training generates synchronized bursts—all-reduce collectives where thousands of flows start and stop together. The controller's behavior under that workload profile is different from what a steady-state model captures.
-
-**Integration with htsim or ns-3.** The Python simulator is clean for parameter exploration but doesn't model switch queuing, ECMP path selection, or PFC. The C++ `HPCCFlow` class is designed to slot into htsim; that integration would give more realistic results.
-
-**800G+.** 1.6 Tbps links are coming. The scaling rules hold mathematically, but the feedback interval approaches the propagation delay of a short cable. At that point you're designing for a regime where the control loop round-trip time is dominated by physics, not software.
-
-**Multi-flow fairness.** This project focused on single-flow performance metrics. Validating that the tuned parameters maintain fair bandwidth sharing under competing flows is a natural next step.
+*Code, sweep scripts, and plotting utilities: [github.com/XhovaniM8/hpcc-tuning](https://github.com/XhovaniM8/hpcc-tuning)*

@@ -6,6 +6,10 @@ tags: [getcracked, getcracked-review, getcracked-io, quant-interview-prep, quant
 description: "An honest review of GetCracked.io for quant trading and systems programming interview prep. What it covers, who it's for, and whether it's worth it."
 ---
 
+> Use code **<code class="coupon-code" style="cursor:pointer;" onclick="copyCoupon(this)" title="Click to copy">MF8UJU6X</code>** at checkout for 10% off. I get a kickback — full disclosure, nothing hidden.
+
+---
+
 ## What GetCracked.io Is
 
 [GetCracked.io](https://www.getcracked.io) is a technical interview prep platform focused on quant trading, systems programming, and low-level software roles. It has two main sides: a question bank for conceptual depth and a coding problem set with a built-in editor and test cases for implementation practice.

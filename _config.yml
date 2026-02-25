@@ -49,6 +49,9 @@ social:
 
 google_site_verification: # fill in to your verification string
 
+webmaster_tools:
+  bing: 212DBFDA907F541CBEA81304E9B128C5
+
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
 

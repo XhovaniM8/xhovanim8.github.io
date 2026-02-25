@@ -90,11 +90,17 @@ This platform helped me get into the room. My lack of balanced practice is what 
 
 **Coding problems with a built-in editor and test cases** — this is the part most reviews miss. You're not answering multiple choice. You're implementing things: `std::vector`, `unique_ptr`, `shared_ptr`, lock-free queues, order books, TCP socket handling, compile-time metaprogramming. Real implementation against real test cases. Difficulty ratings go from Easy up to "Cracked" and "Cooked" — the latter having success rates around 2–11%.
 
+**Timed quizzes** that simulate the knowledge round at quant firms. There are role-specific assessments — intern, junior dev — in both C++ and Python flavors, with mixed question and coding problem formats under a time limit. These are closer to an actual firm screen than most prep tools get.
+
+**Playlists** — structured learning paths grouped by theme. Things like "C++ 50" (50 questions to actually call yourself a C++ dev), "Networking 30," "OS 25," and a dedicated templating deep-dive. These pair questions with concepts so you're building understanding, not just triaging flashcards.
+
+**Structured learning** built around the actual textbooks that matter in this space. Concepts are grounded in real material, not vibes.
+
+**Video content** covering behavioral interviews, how to present yourself, and negotiation. This matters more than most technical candidates like to admit.
+
 **Filtering by topic, difficulty, and company pattern** — more useful than it sounds. After a few interviews, you realize firms repeat themes, not questions. This reflects that reality.
 
 **Performance tracking** with accuracy metrics and relative percentile data. Useful feedback without turning prep into a dopamine game.
-
-**Behavioral and career content** — guides on behavioral interviews and negotiation. This matters more than most technical candidates like to admit.
 
 **Discord** that's active and populated by candidates currently interviewing and people who already have offers.
 

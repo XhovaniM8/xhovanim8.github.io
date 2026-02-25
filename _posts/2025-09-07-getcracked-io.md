@@ -88,7 +88,7 @@ This platform helped me get into the room. My lack of balanced practice is what 
 
 **Question bank** covering C++ nuances, OS internals, CPU architecture and memory hierarchy, concurrency primitives, and networking. The questions force you to reason through tradeoffs and failure modes, not just recall facts.
 
-**Coding problems with a built-in editor and test cases** — this is the part most reviews miss. You're not answering multiple choice. You're implementing things: `std::vector`, `unique_ptr`, `shared_ptr`, lock-free queues, order books, TCP socket handling, compile-time metaprogramming. Real implementation against real test cases. Difficulty ratings go from Easy up to "Cracked" and "Cooked" — the latter having success rates around 2–11%.
+**Coding problems with a built-in editor and test cases** — this is the part most reviews miss. You're not answering multiple choice. You're implementing things: `std::vector`, `unique_ptr`, `shared_ptr`, lock-free queues, order books, TCP socket handling, compile-time metaprogramming. Real implementation against real test cases. Difficulty ratings go from Easy up to "Cracked" and "Cooked" — the latter having success rates around 2–11%. It's the dark souls of interview prep.
 
 **Timed quizzes** that simulate the knowledge round at quant firms. There are role-specific assessments — intern, junior dev — in both C++ and Python flavors, with mixed question and coding problem formats under a time limit. These are closer to an actual firm screen than most prep tools get.
 

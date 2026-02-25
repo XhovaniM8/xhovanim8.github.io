@@ -18,9 +18,9 @@ description: "My Farmingdale State College senior project: an enclosed, automate
 
 ## Where It Started
 
-Spring 2022. Senior year at Farmingdale State College. EET 452W—the capstone design course for Electrical Engineering Technology.
+Spring 2022. Senior year at Farmingdale State College. EET 452W—the capstone design course for Computer Engineering Technologies.
 
-Me, Joe Cueter, and Connor Powers decided to build an automated hydroponic system from scratch. Enclosed, sensor-monitored, Arduino-controlled. The goal was to grow plants with as little human interaction as possible—like a fish tank, but for lettuce.
+Me and two of my classmates decided to build an automated hydroponic system from scratch. Enclosed, sensor-monitored, Arduino-controlled. The goal was to grow plants with as little human interaction as possible—like a fish tank, but for lettuce.
 
 I was responsible for software. This was, genuinely, the project that made me realize I actually liked programming.
 
@@ -45,12 +45,14 @@ Sensors → Arduino → Relays → Pumps / LEDs / Nutrient Dispenser
 ```
 
 **Sensors:**
+
 - **Grove Temperature Sensor** — thermistor-based, -40°C to 125°C, ±1.5°C accuracy
 - **Gravity Analog pH Sensor** — 0–14 range, ±0.1pH at 25°C
 - **Capacitive Soil Moisture Sensor** — corrosion-resistant, 3.3–5.5V
 - **TDS Sensor** — measures total dissolved solids in the reservoir water, 0–1000ppm
 
 **Actuators:**
+
 - DC 3–6V brushless water pump (submersible, in the reservoir)
 - CHENBO channel relays (switching the pump and LED strips)
 - Timed LED strips for the light cycle
@@ -95,20 +97,16 @@ The proposal was ambitious: pH-triggered nutrient dispensing, full humidity cont
 
 What shipped: timed water pumping, working pH and moisture monitoring, conditional logic to trigger pumping based on sensor readings, real-time data logging to Excel. The nutrient dispenser worked. The full per-plant database and UI did not—cut due to time.
 
-The honest conclusion from the project report holds up: *"Although our current implementation met the goal of automating timed water pumping for plant growth, a longer timeline and more funding could facilitate a more comprehensive system test."*
+The honest conclusion from the project report holds up: _"Although our current implementation met the goal of automating timed water pumping for plant growth, a longer timeline and more funding could facilitate a more comprehensive system test."_
 
 Budget came in under $200. Commercial equivalent: $149.95 with six pods and a proprietary app. We had more grow space and full access to the control logic.
 
 ---
 
-## Why This Project Matters to Me
+## System's Mindset
 
-At the time I wrote this off as an EE capstone project. Hydroponics, relays, Arduino—interesting but not where I expected to end up.
-
-What it actually was: the first time I owned a software system end-to-end. Chose the sensors. Wrote the control logic. Debugged hardware from the software side. Watched physical things move because of code I wrote.
-
-The jump from there to NYU for FRE, to building LSTM models and FPGA pipelines and network congestion controllers—it's a longer path than it looks. But this is where it started. A plastic bin with PVC pipes and a loose ground wire.
+We got an A by the way.
 
 ---
 
-*Project by Xhovani Mali, Joe Cueter, and Connor Powers — Farmingdale State College EET 452W, Spring 2022.*
+_Project by Xhovani Mali_

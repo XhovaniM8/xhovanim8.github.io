@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /Users/rougeboy/dev/xhovanim8.github.io && git push)",
+      "Bash(cd /Users/rougeboy/dev/xhovanim8.github.io && git pull --rebase && git push)",
+      "Bash(cd /Users/rougeboy/dev/xhovanim8.github.io && git add _posts/2026-02-24-hpcc-parameter-tuning.md && git commit -m \"$\\(cat <<'EOF'\nAdd HPCC++ parameter tuning blog post\n\nCovers the NYU ECE-GY 6383 term project: control-theoretic analysis and\nsystematic parameter tuning for HPCC++ congestion control in AI datacenter\nnetworks. Includes stability constraints, scaling rules for 100G/400G/800G\nlinks, and tuned vs untuned comparison results with code snippets.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)",
+      "Bash(cd /Users/rougeboy/dev/xhovanim8.github.io && git add _posts/2026-02-24-hpcc-parameter-tuning.md && git commit -m \"$\\(cat <<'EOF'\nUpdate HPCC++ post with actual paper findings\n\nRewrote based on the full paper. Now accurately reflects the csg-htsim\npacket-level experiments \\(432-node fat-tree, heavy_384 workload\\), the\nnon-monotonic tail FCT sweep results, the mechanism ablation study\n\\(p_only/pd/no-clamp variants\\), and the damping proxy grouping \\(zeta\\).\nClarifies that tail FCT is the correct objective for AI training jobs.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)",
+      "Bash(cd /Users/rougeboy/dev/xhovanim8.github.io && git add _posts/2026-02-24-hydroponic-system.md && git commit -m \"$\\(cat <<'EOF'\nAdd hydroponics senior project blog post\n\nOrigin story post about the Farmingdale State College EET 452W capstone\nproject \\(Spring 2022\\): an enclosed automated hydroponic system built with\nArduino, pH/TDS/moisture/temperature sensors, relays, and water pumps.\nCovers the build, the debugging sessions, what shipped vs what was planned,\nand why this project was the start of everything.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)"
+    ]
+  }
+}

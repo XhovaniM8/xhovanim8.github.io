@@ -8,15 +8,17 @@ description: "An honest review of GetCracked.io for quant trading and systems pr
 
 ## What GetCracked.io Is
 
-[GetCracked.io](https://www.getcracked.io) is a technical interview prep platform with 600+ questions focused on quant trading, systems programming, and low-level software roles.
+[GetCracked.io](https://www.getcracked.io) is a technical interview prep platform focused on quant trading, systems programming, and low-level software roles. It has two main sides: a question bank for conceptual depth and a coding problem set with a built-in editor and test cases for implementation practice.
 
-The emphasis is not on grinding DSA for the sake of it. The platform leans into:
+The question bank leans into:
 
 - Operating systems
 - Computer architecture
 - Concurrency and synchronization
 - Networking fundamentals
 - Practical C++ and systems-level implementation
+
+The coding problems are a different beast. These aren't generic LeetCode-style puzzles. You're implementing things like `std::optional`, lock-free SPSC queues, order books, mutex primitives, reader-writer locks, and shared pointers — the kind of problems where you either understand memory layout and ownership semantics or you don't. Success rates on many of these are in the single digits.
 
 It was built by "Coding Jesus," a quant-focused creator. The short-form content is loud by design — it has to be — but the platform itself is surprisingly serious. I've spoken to him directly. The persona is marketing. The product is not a joke.
 
@@ -84,7 +86,9 @@ This platform helped me get into the room. My lack of balanced practice is what 
 
 ## What You Get
 
-**Question library** covering C++ nuances, OS internals, CPU architecture and memory hierarchy, concurrency primitives, networking, and practical implementation. The questions force you to reason through tradeoffs and failure modes, not just recall facts.
+**Question bank** covering C++ nuances, OS internals, CPU architecture and memory hierarchy, concurrency primitives, and networking. The questions force you to reason through tradeoffs and failure modes, not just recall facts.
+
+**Coding problems with a built-in editor and test cases** — this is the part most reviews miss. You're not answering multiple choice. You're implementing things: `std::vector`, `unique_ptr`, `shared_ptr`, lock-free queues, order books, TCP socket handling, compile-time metaprogramming. Real implementation against real test cases. Difficulty ratings go from Easy up to "Cracked" and "Cooked" — the latter having success rates around 2–11%.
 
 **Filtering by topic, difficulty, and company pattern** — more useful than it sounds. After a few interviews, you realize firms repeat themes, not questions. This reflects that reality.
 
@@ -118,10 +122,10 @@ If you're interviewing soon, annual is the practical pick. If you're in it for t
 - Strong value at lifetime pricing
 
 **What's not:**
-- Smaller question bank than LeetCode
-- Still requires supplemental coding practice to pass most interviews
+- Smaller total question volume than LeetCode
+- Coding problems are domain-specific — not a substitute for general algo breadth
 
-GetCracked won't replace coding practice. But it will expose whether you actually understand the machine you're programming — and that gap is real, and most candidates don't close it.
+GetCracked won't replace broad algo prep. But it will expose whether you actually understand the machine you're programming — and that gap is real, and most candidates don't close it.
 
 ---
 

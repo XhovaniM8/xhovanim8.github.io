@@ -1,9 +1,9 @@
 ---
-title: "GetCracked.io Coupon Code & Review (2025): 10% Off Discount"
+title: "GetCracked.io Coupon Code & Review (2026): 10% Off Discount"
 date: 2025-09-07 13:00:00 +0000
 categories: [review, career]
 tags: [getcracked, getcracked-coupon-code, getcracked-discount, getcracked-review, getcracked-io, quant-interview-prep, quant, interview-prep, systems-programming, computer-architecture, os, concurrency, quant-trading]
-description: "GetCracked.io coupon code MF8UJU6X for 10% off. Honest review of GetCracked.io for quant trading and systems programming interview prep. Discount code works on all plans."
+description: "GetCracked.io coupon code MF8UJU6X for 10% off. Honest review of GetCracked.io for quant trading and systems programming interview prep. Discount code works on all plans. Updated 2026."
 ---
 
 ## 10% Off Discount Code
@@ -61,7 +61,7 @@ I’ve spoken to him directly. The persona is marketing. The product is not a jo
 
 This platform is for:
 
-- Quant trading firm candidates (Jane Street, Citadel, HRT, Optiver, etc.)
+- Quant trading firm candidates (firms that go deep on systems, architecture, and low-latency)
 - HFT and low-latency systems roles
 - Candidates facing interviews that go beyond standard LeetCode loops
 
@@ -73,13 +73,25 @@ If your interviews are generic SWE pipelines, LeetCode alone is probably enough.
 
 I want to be explicit here, because most reviews quietly skip this part.
 
-Studying systems-level topics—much of it aligned with the kind of material GetCracked emphasizes—helped me land interviews at:
+### Platform Usage
 
-- **Renaissance Technologies**
-- **Optiver**
-- **Hudson River Trading**
+I’ve been on GetCracked since mid-2025. As of writing:
 
-That alone is not trivial. These firms do not hand out interviews casually, and they absolutely screen for depth beyond surface-level DSA.
+| Metric | Value |
+|--------|-------|
+| Questions completed | 347 |
+| Platform rank | **#763 out of 93,000+ users** |
+| Percentile | **Top 0.82%** |
+| Networking | 93 / 95 |
+| Computer Architecture | 39 / 49 |
+
+The networking score reflects how the material is actually structured — it’s thorough, not just surface definitions. Getting to 93/95 required understanding things like INT, ARP edge cases, TCP internals, and fragmentation behavior at a level where you can reason through novel questions, not just recall facts.
+
+### Interview Outcomes
+
+Studying systems-level topics—much of it aligned with the kind of material GetCracked emphasizes—helped me land interviews at multiple quant trading firms, HFT shops, defense companies, and startups across the industry.
+
+That alone is not trivial. These organizations do not hand out interviews casually, and they absolutely screen for depth beyond surface-level DSA.
 
 I attribute **at least part of getting those interviews** to focusing on low-level fundamentals: OS behavior, architecture, concurrency, and how software actually runs on hardware.
 
@@ -138,9 +150,10 @@ The Discord is active, populated by candidates currently interviewing and people
 |-----|------|------|
 | Free | $0 | Limited access, can earn money contributing |
 | Premium | $20/month | Full access, videos, advanced filters |
+| Annual | $179/year | Same as Premium, billed yearly (~25% savings) |
 | Lifetime | $299 once | Everything, no recurring fees |
 
-If you’re serious about quant or systems interviews, lifetime is the rational choice.
+If you’re interviewing in the near term, annual is the smart pick. If you’re in it for the long haul or expect to revisit this material post-hire, lifetime pays for itself quickly.
 
 ---
 
@@ -257,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "name": "Is GetCracked.io worth it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "GetCracked.io is worth it if you are preparing for quant trading, HFT, or systems programming interviews. It covers operating systems, computer architecture, concurrency, and C++ — topics most other platforms skip. It helped the reviewer land interviews at Renaissance Technologies, Optiver, and Hudson River Trading."
+        "text": "GetCracked.io is worth it if you are preparing for quant trading, HFT, or systems programming interviews. It covers operating systems, computer architecture, concurrency, and C++ — topics most other platforms skip. It helped the reviewer land interviews at multiple highly selective quant and HFT firms."
       }
     },
     {

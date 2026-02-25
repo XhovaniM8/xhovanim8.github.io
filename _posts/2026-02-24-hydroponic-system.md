@@ -73,7 +73,7 @@ The enclosure was a plastic bin with PVC pipe running through it. Plants sat in 
 - LED strips mounted inside facing down
 - The Arduino mounted in the case wall
 
-Joe handled the physical construction—cutting PVC, applying waterproof adhesive (which needs hours to cure and test), wiring the power side. Connor managed materials and assembly. I wrote the code and ran sensor testing.
+One teammate handled the physical construction—cutting PVC, applying waterproof adhesive (which needs hours to cure and test), wiring the power side. Another managed materials and assembly. I wrote the code and ran sensor testing.
 
 ---
 
@@ -81,7 +81,7 @@ Joe handled the physical construction—cutting PVC, applying waterproof adhesiv
 
 **Library hell.** The TDS sensor required `GravityTDS.h` and the temperature sensor required `<math.h>`. Both caused compiler errors until I tracked down the right library versions. Eventually got them both compiling together.
 
-**The relay MOSFET question.** There was a genuine concern mid-project about whether the relays had an internal MOSFET capable of amplifying the Arduino's signal (the Arduino outputs ~20mA, the motors needed ~70mA). Connor sourced PS170 MOSFETs and designed a discrete amplifier stage as a backup. Took over a week for parts to arrive. Turns out the relays did have the internal MOSFET and worked fine—but having the backup option forced us to actually understand what was happening inside the relay module.
+**The relay MOSFET question.** There was a genuine concern mid-project about whether the relays had an internal MOSFET capable of amplifying the Arduino's signal (the Arduino outputs ~20mA, the motors needed ~70mA). One teammate sourced PS170 MOSFETs and designed a discrete amplifier stage as a backup. Took over a week for parts to arrive. Turns out the relays did have the internal MOSFET and worked fine—but having the backup option forced us to actually understand what was happening inside the relay module.
 
 **The missing ground.** Classic embedded debugging story. Everything tested fine at home. Brought the project into school for the lab presentation. Relays stopped responding. Spent time checking code, checking ports, checking relay wiring. The problem: a ground connection from the Arduino to the relay configuration had come loose in transit. One wire. Fixed in two minutes once we found it.
 

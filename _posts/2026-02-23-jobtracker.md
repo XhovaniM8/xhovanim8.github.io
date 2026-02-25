@@ -162,3 +162,9 @@ Useful issues include:
 It's free. It's local. It's better than a spreadsheet.
 
 [Download it or build it yourself.](https://github.com/XhovaniM8/still-not-hired/releases)
+
+---
+
+## On the Interview Side
+
+If you're tracking applications, you're probably also preparing for interviews. For quant trading and HFT roles specifically, the prep is different — less LeetCode pattern-matching, more systems fundamentals. I wrote about that [here](/posts/getcracked-io/).

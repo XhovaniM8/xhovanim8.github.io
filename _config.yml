@@ -20,10 +20,10 @@ timezone: America/New_York
 
 title: XhovaniM8 # the main title
 
-tagline: Xhovani's Documentation, Project, and Blogs # it will display as the sub-title
+tagline: Computer engineer. FPGA, systems programming, low-level code, and the occasional rabbit hole. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A blog about technology, programming, and other things.
+  Xhovani Mali — FPGA engineer targeting quant trading and HFT roles. Writing about systems programming, computer architecture, low-latency C++, interview prep, and personal projects.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: "https://xhovanim8.github.io"
